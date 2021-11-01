@@ -12,5 +12,7 @@ This repository will contain Logitech C270 webcam interfacing with Raspberry-Pi 
 * [Buildroot Repository for Client](https://github.com/cu-ecen-aeld/final-project-vido2373.git) - Target build system related files for Socket Client
 * [Shared Repository](https://github.com/cu-ecen-aeld/final-project-support-vishnu-mukta.git) - support files for both Server and Client
 
-
+# Team Members
+* Mukta Darekar (mukta.darekar@colorado.edu)
+* Vishnu Dodballapur (vishnu.dodballapur@colorado.edu)
 
