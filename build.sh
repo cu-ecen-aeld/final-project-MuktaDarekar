@@ -48,11 +48,76 @@ else
 	echo "${MEMORY} already exists in the local.conf file"
 fi
 
+#add firmware support 
+IMAGE_ADD="IMAGE_INSTALL:append = \"linux-firmware-rpidistro-bcm43430 v4l-utils fbida fbgrab python3 ntp\""
+
+cat conf/local.conf | grep "${IMAGE_ADD}" > /dev/null
+local_imgadd_info=$?
+
+if [ $local_imgadd_info -ne 0 ];then
+    echo "Append ${IMAGE_ADD} in the local.conf file"
+	echo ${IMAGE_ADD} >> conf/local.conf
+else
+	echo "${IMAGE_ADD} already exists in the local.conf file"
+fi
+
+#Licence
+LICENCE="LICENSE_FLAGS_WHITELIST = \"commercial\""
+
+cat conf/local.conf | grep "${LICENCE}" > /dev/null
+local_licn_info=$?
+
+if [ $local_licn_info -ne 0 ];then
+    echo "Append ${LICENCE} in the local.conf file"
+	echo ${LICENCE} >> conf/local.conf
+else
+	echo "${LICENCE} already exists in the local.conf file"
+fi
+
+#SSH
+IMAGE_F="IMAGE_FEATURES += \"ssh-server-openssh tools-sdk tools-debug\""
+
+cat conf/local.conf | grep "${IMAGE_F}" > /dev/null
+local_imgf_info=$?
+
+if [ $local_imgf_info -ne 0 ];then
+    echo "Append ${IMAGE_F} in the local.conf file"
+	echo ${IMAGE_F} >> conf/local.conf
+else
+	echo "${IMAGE_F} already exists in the local.conf file"
+fi
+
+#Add wifi support
+DISTRO_F="DISTRO_FEATURES:append = \"wifi\""
+
+cat conf/local.conf | grep "${DISTRO_F}" > /dev/null
+local_distro_info=$?
+
+if [ $local_distro_info -ne 0 ];then
+    echo "Append ${DISTRO_F} in the local.conf file"
+	echo ${DISTRO_F} >> conf/local.conf
+else
+	echo "${DISTRO_F} already exists in the local.conf file"
+fi
+
+#Add any packages needed here
+ADD_PACK="CORE_IMAGE_EXTRA_INSTALL += \"capture\""
+
+cat conf/local.conf | grep "${ADD_PACK}" > /dev/null
+local_pack_info=$?
+
+if [ $local_pack_info -ne 0 ];then
+    echo "Append ${ADD_PACK} in the local.conf file"
+	echo ${ADD_PACK} >> conf/local.conf
+else
+	echo "${ADD_PACK} already exists in the local.conf file"
+fi
+
 
 bitbake-layers show-layers | grep "meta-oe" > /dev/null
-layer_info=$?
+layer_oe_info=$?
 
-if [ $layer_info -ne 0 ];then
+if [ $layer_oe_info -ne 0 ];then
 	echo "Adding meta-oe layer"
 	bitbake-layers add-layer ../meta-openembedded/meta-oe
 else
@@ -61,9 +126,9 @@ fi
 
 
 bitbake-layers show-layers | grep "meta-python" > /dev/null
-layer_info=$?
+layer_python_info=$?
 
-if [ $layer_info -ne 0 ];then
+if [ $layer_python_info -ne 0 ];then
 	echo "Adding meta-python layer"
 	bitbake-layers add-layer ../meta-openembedded/meta-python
 else
@@ -72,9 +137,9 @@ fi
 
 
 bitbake-layers show-layers | grep "meta-networking" > /dev/null
-layer_info=$?
+layer_networking_info=$?
 
-if [ $layer_info -ne 0 ];then
+if [ $layer_networking_info -ne 0 ];then
 	echo "Adding meta-networking layer"
 	bitbake-layers add-layer ../meta-openembedded/meta-networking
 else
@@ -90,6 +155,17 @@ if [ $layer_info -ne 0 ];then
 	bitbake-layers add-layer ../meta-raspberrypi
 else
 	echo "meta-raspberrypi layer already exists"
+fi
+
+
+bitbake-layers show-layers | grep "meta-capture" > /dev/null
+layer_capture_info=$?
+
+if [ $layer_capture_info -ne 0 ];then
+	echo "Adding meta-capture layer"
+	bitbake-layers add-layer ../meta-capture
+else
+	echo "meta-capture layer already exists"
 fi
 
 set -e
