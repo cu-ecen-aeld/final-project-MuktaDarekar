@@ -1,6 +1,9 @@
 #!/bin/bash
 # Script to build image for qemu.
 # Author: Siddhant Jajoo.
+# Modified by: Mukta Darekar
+# Reference for Wifi: https://raspberrypi.stackexchange.com/questions/48351/configure-wlan-for-raspberrypi3-using-image-created-with-yocto
+# https://medium.com/swlh/build-and-use-gstreamer-with-yocto-project-and-beaglebone-black-217d6822476d
 
 git submodule init
 git submodule sync
@@ -48,8 +51,26 @@ else
 	echo "${MEMORY} already exists in the local.conf file"
 fi
 
-#add firmware support 
-IMAGE_ADD="IMAGE_INSTALL:append = \"linux-firmware-rpidistro-bcm43430 v4l-utils fbida fbgrab python3 ntp\""
+#Add wifi support
+DISTRO_F="DISTRO_FEATURES:append = \" wifi\""
+
+cat conf/local.conf | grep "${DISTRO_F}" > /dev/null
+local_distro_info=$?
+
+if [ $local_distro_info -ne 0 ];then
+    echo "Append ${DISTRO_F} in the local.conf file"
+	echo ${DISTRO_F} >> conf/local.conf
+else
+	echo "${DISTRO_F} already exists in the local.conf file"
+fi
+
+#add firmware support and wifi details, add camera related package support
+IMAGE_ADD="IMAGE_INSTALL:append = \"linux-firmware-rpidistro-bcm43430 
+							  v4l-utils python3 ntp wpa-supplicant 
+							  fbida fbgrab ffmpeg gstreamer1.0 
+            				  gstreamer1.0-plugins-good gstreamer1.0-plugins-base  
+            				  gstreamer1.0-plugins-ugly gstreamer1.0-libav gst-player
+            				  gstreamer1.0-meta-base gst-examples gstreamer1.0-rtsp-server\""
 
 cat conf/local.conf | grep "${IMAGE_ADD}" > /dev/null
 local_imgadd_info=$?
@@ -63,6 +84,8 @@ fi
 
 #Licence
 LICENCE="LICENSE_FLAGS_WHITELIST = \"commercial\""
+#this is required so that gstreamer1.0-plugins-ugly can be added to the image
+LICENSE:append = " commercial_gstreamer1.0-plugins-ugly commercial_mpg123"
 
 cat conf/local.conf | grep "${LICENCE}" > /dev/null
 local_licn_info=$?
@@ -85,19 +108,6 @@ if [ $local_imgf_info -ne 0 ];then
 	echo ${IMAGE_F} >> conf/local.conf
 else
 	echo "${IMAGE_F} already exists in the local.conf file"
-fi
-
-#Add wifi support
-DISTRO_F="DISTRO_FEATURES:append = \"wifi\""
-
-cat conf/local.conf | grep "${DISTRO_F}" > /dev/null
-local_distro_info=$?
-
-if [ $local_distro_info -ne 0 ];then
-    echo "Append ${DISTRO_F} in the local.conf file"
-	echo ${DISTRO_F} >> conf/local.conf
-else
-	echo "${DISTRO_F} already exists in the local.conf file"
 fi
 
 #Add any packages needed here
