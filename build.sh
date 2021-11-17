@@ -67,7 +67,7 @@ fi
 #add firmware support and wifi details, add camera related package support
 IMAGE_ADD="IMAGE_INSTALL:append = \"linux-firmware-rpidistro-bcm43430 
 							  v4l-utils python3 ntp wpa-supplicant 
-							  fbida fbgrab ffmpeg gstreamer1.0 
+							  fbida fbgrab ffmpeg imagemagick gstreamer1.0 
             				  gstreamer1.0-plugins-good gstreamer1.0-plugins-base  
             				  gstreamer1.0-plugins-ugly gstreamer1.0-libav gst-player
             				  gstreamer1.0-meta-base gst-examples gstreamer1.0-rtsp-server\""
@@ -111,7 +111,7 @@ else
 fi
 
 #Add any packages needed here
-ADD_PACK="CORE_IMAGE_EXTRA_INSTALL += \"capture\""
+ADD_PACK="CORE_IMAGE_EXTRA_INSTALL += \"capture server\""
 
 cat conf/local.conf | grep "${ADD_PACK}" > /dev/null
 local_pack_info=$?
@@ -176,6 +176,17 @@ if [ $layer_capture_info -ne 0 ];then
 	bitbake-layers add-layer ../meta-capture
 else
 	echo "meta-capture layer already exists"
+fi
+
+
+bitbake-layers show-layers | grep "meta-server" > /dev/null
+layer_server_info=$?
+
+if [ $layer_server_info -ne 0 ];then
+	echo "Adding meta-server layer"
+	bitbake-layers add-layer ../meta-server
+else
+	echo "meta-server layer already exists"
 fi
 
 set -e
