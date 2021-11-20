@@ -8,7 +8,7 @@ SRC_URI = "git://git@github.com/cu-ecen-aeld/final-project-support-vishnu-mukta;
 
 PV = "1.0+git${SRCPV}"
 # TODO: set to reference a specific commit hash in your assignment repo
-SRCREV = "e7591068d84a0dafa3d686cbf9c8d5ef7eb9095f"
+SRCREV = "f5878ba3bc4b1e8b362aa9c29e52c4a2eb66e8a8"
 
 # This sets your staging directory based on WORKDIR, where WORKDIR is defined at 
 # https://www.yoctoproject.org/docs/latest/ref-manual/ref-manual.html#var-WORKDIR
@@ -20,9 +20,9 @@ S = "${WORKDIR}/git/socket_server"
 # See http://git.yoctoproject.org/cgit.cgi/poky/plain/meta/conf/bitbake.conf?h=warrior for yocto path prefixes
 FILES_${PN} += "${bindir}/aesdsocket"
 
-INITSCRIPT_PACKAGES = "${PN}"
-INITSCRIPT_NAME_${PN} = "aesdsocket-start-stop"
-inherit update-rc.d
+#INITSCRIPT_PACKAGES = "${PN}"
+#INITSCRIPT_NAME_${PN} = "aesdsocket-start-stop"
+#inherit update-rc.d
 
 # TODO: customize these as necessary for any libraries you need for your application
 TARGET_LDFLAGS += "-pthread -lrt"
