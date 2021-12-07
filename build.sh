@@ -110,7 +110,7 @@ else
 	echo "${IMAGE_F} already exists in the local.conf file"
 fi
 
-#Add any packages needed here
+#Add any self written c code packages needed here
 ADD_PACK="CORE_IMAGE_EXTRA_INSTALL += \"capture server\""
 
 cat conf/local.conf | grep "${ADD_PACK}" > /dev/null
@@ -123,7 +123,7 @@ else
 	echo "${ADD_PACK} already exists in the local.conf file"
 fi
 
-
+#Add meta-oe from openembedded
 bitbake-layers show-layers | grep "meta-oe" > /dev/null
 layer_oe_info=$?
 
@@ -134,7 +134,7 @@ else
 	echo "meta-oe layer already exists"
 fi
 
-
+#Add meta-python from openembedded
 bitbake-layers show-layers | grep "meta-python" > /dev/null
 layer_python_info=$?
 
@@ -145,7 +145,7 @@ else
 	echo "meta-python layer already exists"
 fi
 
-
+#Add meta-networking from openembedded
 bitbake-layers show-layers | grep "meta-networking" > /dev/null
 layer_networking_info=$?
 
@@ -156,7 +156,7 @@ else
 	echo "meta-networking layer already exists"
 fi
 
-
+#Add meta-raspberrypi for device support
 bitbake-layers show-layers | grep "meta-raspberrypi" > /dev/null
 layer_info=$?
 
@@ -167,7 +167,7 @@ else
 	echo "meta-raspberrypi layer already exists"
 fi
 
-
+#Add meta-capture for camera support
 bitbake-layers show-layers | grep "meta-capture" > /dev/null
 layer_capture_info=$?
 
@@ -178,7 +178,7 @@ else
 	echo "meta-capture layer already exists"
 fi
 
-
+#Add meta-server for application specific socket communication program
 bitbake-layers show-layers | grep "meta-server" > /dev/null
 layer_server_info=$?
 
@@ -189,5 +189,6 @@ else
 	echo "meta-server layer already exists"
 fi
 
+#create image
 set -e
 bitbake core-image-base
