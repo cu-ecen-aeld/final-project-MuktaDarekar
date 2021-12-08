@@ -19,3 +19,7 @@ For now, I have decided to go along with Raspberry-Pi, in future I may try to ad
 # Team Members
 * Mukta Darekar (mukta.darekar@colorado.edu)
 * Vishnu Dodballapur (vishnu.dodballapur@colorado.edu)
+
+#Final Project Demo Overview
+* [Server operation - Mukta Darekar](https://github.com/cu-ecen-aeld/final-project-MuktaDarekar/wiki/AESD-final-project-Demo)
+* [Client Operation - Vishnu Dodballapur](https://github.com/cu-ecen-aeld/final-project-vido2373/wiki/Vishnu's-Final-Project-Video)
